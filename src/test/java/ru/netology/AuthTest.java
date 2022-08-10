@@ -1,5 +1,5 @@
 package ru.netology;
-import com.codeborne.selenide.Configuration;
+
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
@@ -15,14 +15,13 @@ public class AuthTest {
 
     @Test
     void shouldRegistatedActive() {
-        Configuration.holdBrowserOpen = true;
         Registration registration = DataGenerator.getNewUser("active");
         open("http://localhost:9999");
         SelenideElement form = $(".form");
         form.$("[data-test-id=login] input").setValue(registration.getLogin());
         form.$("[data-test-id=password] input").setValue(registration.getPassword());
         form.$(".button").click();
-        $(withText("Личный кабинет")).shouldBe(exist);
+        $(withText("Личный кабинет")).shouldHave(text("Личный кабинет"));
     }
 
     @Test
@@ -33,7 +32,7 @@ public class AuthTest {
         form.$("[data-test-id=login] input").setValue(registration.getLogin());
         form.$("[data-test-id=password] input").setValue(registration.getPassword());
         form.$(".button").click();
-        $(withText("Пользователь заблокирован")).shouldBe(exist);
+        $(withText("Пользователь заблокирован")).shouldHave(text("Пользователь заблокирован"));
     }
 
     @Test
@@ -45,7 +44,7 @@ public class AuthTest {
         form.$("[data-test-id=login] input").setValue(faker.name().firstName());
         form.$("[data-test-id=password] input").setValue(registration.getPassword());
         form.$(".button").click();
-        $(withText("Неверно указан логин или пароль")).shouldBe(exist);
+        $(withText("Неверно указан логин или пароль")).shouldHave(text("Неверно указан логин или пароль"));
     }
 
     @Test
@@ -57,6 +56,6 @@ public class AuthTest {
         form.$("[data-test-id=login] input").setValue(registration.getLogin());
         form.$("[data-test-id=password] input").setValue(faker.internet().password());
         form.$(".button").click();
-        $(withText("Неверно указан логин или пароль")).shouldBe(exist);
+        $(withText("Неверно указан логин или пароль")).shouldHave(text("Неверно указан логин или пароль"));
     }
 }
