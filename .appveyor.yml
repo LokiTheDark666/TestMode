@@ -7,7 +7,7 @@ branches:
 build: off
 
 install:
- -jar artifacts/app-ibank.jar -P:profile=test
+ -java -jar artifacts/app-ibank.jar -P:profile=test
 
 build_script:
   - ps: chmod +x gradlew
