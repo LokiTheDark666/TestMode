@@ -2,6 +2,7 @@ package ru.netology;
 
 import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
@@ -12,11 +13,16 @@ import static com.codeborne.selenide.Selenide.*;
 
 
 public class AuthTest {
+    Faker faker = new Faker();
+
+    @BeforeEach
+    void openUrl() {
+        open("http://localhost:9999");
+    }
 
     @Test
     void shouldRegistatedActive() {
         Registration registration = DataGenerator.getNewUser("active");
-        open("http://localhost:9999");
         SelenideElement form = $(".form");
         form.$("[data-test-id=login] input").setValue(registration.getLogin());
         form.$("[data-test-id=password] input").setValue(registration.getPassword());
@@ -27,7 +33,6 @@ public class AuthTest {
     @Test
     void shouldRegistatedBlocked() {
         Registration registration = DataGenerator.getNewUser("blocked");
-        open("http://localhost:9999");
         SelenideElement form = $(".form");
         form.$("[data-test-id=login] input").setValue(registration.getLogin());
         form.$("[data-test-id=password] input").setValue(registration.getPassword());
@@ -38,8 +43,6 @@ public class AuthTest {
     @Test
     void shouldRegistatedInvalidLogin() {
         Registration registration = DataGenerator.getNewUser("active");
-        Faker faker = new Faker();
-        open("http://localhost:9999");
         SelenideElement form = $(".form");
         form.$("[data-test-id=login] input").setValue(faker.name().firstName());
         form.$("[data-test-id=password] input").setValue(registration.getPassword());
@@ -50,8 +53,6 @@ public class AuthTest {
     @Test
     void shouldRegistatedInvalidPassword() {
         Registration registration = DataGenerator.getNewUser("active");
-        Faker faker = new Faker();
-        open("http://localhost:9999");
         SelenideElement form = $(".form");
         form.$("[data-test-id=login] input").setValue(registration.getLogin());
         form.$("[data-test-id=password] input").setValue(faker.internet().password());
